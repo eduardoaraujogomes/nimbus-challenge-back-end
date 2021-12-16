@@ -21,7 +21,7 @@ class ForecastController {
     if (neighbourhoodExists) {
       return response.status(404).json({ error: 'Neighbourhood exist' });
     }
-    if (!forecast && ('day', 'hour', 'millimeters').includes(forecast)) {
+    if (!forecast) {
       return response.status(400).json({ error: 'Forecast can not be empety' });
     }
 

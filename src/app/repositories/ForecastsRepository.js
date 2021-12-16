@@ -52,7 +52,8 @@ class ForecastsRepository {
 
   findByNeighbourhood(neighbourhood) {
     return new Promise((resolve) => (
-      forecasts.find((forecast) => resolve(forecast.neighbourhood === neighbourhood))));
+      resolve(forecasts.find((
+        (forecast) => forecast.neighbourhood === neighbourhood)))));
   }
 
   create({
