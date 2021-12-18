@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS forecasts (
 );
 
 INSERT INTO locations (neighbourhood, state)
-VALUES ('São Gonçalo', 'RJ'), ('Niteroi', 'RJ'), ('Copacabana', 'RJ');
+VALUES ('São Gonçalo', 'RJ'), ('Niterói', 'RJ'), ('Copacabana', 'RJ');
 
 INSERT INTO forecasts (day, hour, millimeters, id_locations)
 VALUES
@@ -28,13 +28,13 @@ VALUES
 ('08/12', '15h', 0.1, '405ee223-4f9a-48a7-bdd6-8fe5be30f5f7'),
 ('08/12', '16h', 27.3, '405ee223-4f9a-48a7-bdd6-8fe5be30f5f7'),
 ('08/12', '13h', 15.2,
-'71285e2f-2230-49d3-9d93-846686dda9b2' ),
+'a3575ebf-c07b-4b41-8d45-67d451ba54cc' ),
 ('08/12', '14h', 5.7,
-'71285e2f-2230-49d3-9d93-846686dda9b2'),
+'a3575ebf-c07b-4b41-8d45-67d451ba54cc'),
 ('08/12', '15h', 0.1,
-'71285e2f-2230-49d3-9d93-846686dda9b2'),
+'a3575ebf-c07b-4b41-8d45-67d451ba54cc'),
 ('08/12', '16h', 27.3,
-'71285e2f-2230-49d3-9d93-846686dda9b2'),
+'a3575ebf-c07b-4b41-8d45-67d451ba54cc'),
 ('08/12', '13h', 15.2,
 '71ab0a3c-11ca-46aa-92da-9cbc7159dc7f' ),
 ('08/12', '14h', 5.7,
