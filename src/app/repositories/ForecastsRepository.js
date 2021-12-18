@@ -1,4 +1,5 @@
 const { v4 } = require('uuid');
+const db = require('../../database');
 
 const forecasts = [
   {
@@ -46,8 +47,16 @@ const forecasts = [
 ];
 
 class ForecastsRepository {
-  findAll() {
-    return new Promise((resolve) => resolve(forecasts));
+  async findAll() {
+    const rows = await db.query(`
+      SELECT localizations.neighbourhood AS neighbourhood,
+      localizations.state AS state, forecast.*
+      FROM forecast
+      INNER JOIN localizations
+      ON  localizations.id = forecast.id_localizations
+      ORDER BY localizations.neighbourhood
+    `);
+    return rows;
   }
 
   findByNeighbourhood(neighbourhood) {
