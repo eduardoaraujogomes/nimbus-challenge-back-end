@@ -1,14 +1,14 @@
 const db = require('../../database');
 
-class LocalizationsRepository {
+class LocationsRepository {
   async findAll() {
-    const rows = await db.query('SELECT * FROM localizations ORDER BY neighbourhood');
+    const rows = await db.query('SELECT * FROM locations ORDER BY neighbourhood');
     return rows;
   }
 
   async create({ neighbourhood, state }) {
     const [row] = await db.query(`
-      INSERT INTO localizations(neighbourhood, state)
+      INSERT INTO locations(neighbourhood, state)
       VALUES($1, $2)
       RETURNING *
     `, [neighbourhood, state]);
@@ -16,4 +16,4 @@ class LocalizationsRepository {
   }
 }
 
-module.exports = new LocalizationsRepository();
+module.exports = new LocationsRepository();

@@ -1,13 +1,13 @@
 const { Router } = require('express');
 
-const ForecastController = require('./app/controllers/ForecastController');
-const LocalizationController = require('./app/controllers/LocalizationController');
+const ForecastsController = require('./app/controllers/ForecastController');
+const LocalizationController = require('./app/controllers/LocationController');
 
 const router = Router();
 
-router.get('/forecasts', ForecastController.index);
-router.post('/forecasts', ForecastController.store);
+router.get('/forecasts', ForecastsController.index);
+router.post('/forecasts', ForecastsController.store);
 
-router.get('/localizations', LocalizationController.index);
-router.post('/localizations', LocalizationController.store);
+router.get('/locations', LocalizationController.index);
+router.post('/locations', LocalizationController.store);
 module.exports = router;

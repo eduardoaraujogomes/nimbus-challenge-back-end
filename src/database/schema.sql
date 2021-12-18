@@ -1,45 +1,45 @@
-CREATE DATABASE forecasts;
+CREATE DATABASE nimbus;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE IF NOT EXISTS localizations (
+CREATE TABLE IF NOT EXISTS locations (
   id UUID NOT NULL UNIQUE DEFAULT uuid_generate_v4(),
   neighbourhood VARCHAR NOT NULL,
   state CHAR(2) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS forecast (
+CREATE TABLE IF NOT EXISTS forecasts (
   id UUID NOT NULL UNIQUE DEFAULT uuid_generate_v4(),
   day VARCHAR NOT NULL,
   hour VARCHAR NOT NULL,
   millimeters REAL NOT NULL,
-  id_localizations UUID,
-  FOREIGN KEY(id_localizations) REFERENCES localizations(id)
+  id_locations UUID NOT NULL,
+  FOREIGN KEY(id_locations) REFERENCES locations(id)
 
 );
 
-INSERT INTO localizations (neighbourhood, state)
+INSERT INTO locations (neighbourhood, state)
 VALUES ('São Gonçalo', 'RJ'), ('Niteroi', 'RJ'), ('Copacabana', 'RJ');
 
-INSERT INTO forecast (day, hour, millimeters, id_localizations)
+INSERT INTO forecasts (day, hour, millimeters, id_locations)
 VALUES
-('08/12', '13h', 15.2,'4c8681af-de0d-427a-b42c-249940534864' ),
-('08/12', '14h', 5.7, '4c8681af-de0d-427a-b42c-249940534864'),
-('08/12', '15h', 0.1, '4c8681af-de0d-427a-b42c-249940534864'),
-('08/12', '16h', 27.3, '4c8681af-de0d-427a-b42c-249940534864'),
+('08/12', '13h', 15.2,'405ee223-4f9a-48a7-bdd6-8fe5be30f5f7' ),
+('08/12', '14h', 5.7, '405ee223-4f9a-48a7-bdd6-8fe5be30f5f7'),
+('08/12', '15h', 0.1, '405ee223-4f9a-48a7-bdd6-8fe5be30f5f7'),
+('08/12', '16h', 27.3, '405ee223-4f9a-48a7-bdd6-8fe5be30f5f7'),
 ('08/12', '13h', 15.2,
-'b3d20767-e60c-47f3-89a6-7d55fe8bdc18' ),
+'71285e2f-2230-49d3-9d93-846686dda9b2' ),
 ('08/12', '14h', 5.7,
-'b3d20767-e60c-47f3-89a6-7d55fe8bdc18'),
+'71285e2f-2230-49d3-9d93-846686dda9b2'),
 ('08/12', '15h', 0.1,
-'b3d20767-e60c-47f3-89a6-7d55fe8bdc18'),
+'71285e2f-2230-49d3-9d93-846686dda9b2'),
 ('08/12', '16h', 27.3,
-'b3d20767-e60c-47f3-89a6-7d55fe8bdc18'),
+'71285e2f-2230-49d3-9d93-846686dda9b2'),
 ('08/12', '13h', 15.2,
-'8c112bdc-af98-4fb2-9f66-882226c07f55' ),
+'71ab0a3c-11ca-46aa-92da-9cbc7159dc7f' ),
 ('08/12', '14h', 5.7,
-'8c112bdc-af98-4fb2-9f66-882226c07f55'),
+'71ab0a3c-11ca-46aa-92da-9cbc7159dc7f'),
 ('08/12', '15h', 0.1,
-'8c112bdc-af98-4fb2-9f66-882226c07f55'),
+'71ab0a3c-11ca-46aa-92da-9cbc7159dc7f'),
 ('08/12', '16h', 27.3,
-'8c112bdc-af98-4fb2-9f66-882226c07f55');
+'71ab0a3c-11ca-46aa-92da-9cbc7159dc7f');

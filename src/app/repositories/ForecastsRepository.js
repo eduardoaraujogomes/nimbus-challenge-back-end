@@ -1,83 +1,43 @@
-const { v4 } = require('uuid');
 const db = require('../../database');
-
-const forecasts = [
-  {
-    id: v4(),
-    neighbourhood: 'Copacabana/RJ',
-    forecast: [
-      { day: '08/12', hour: '13h', millimeters: 15 },
-      { day: '08/12', hour: '14h', millimeters: 0 },
-      { day: '08/12', hour: '15h', millimeters: 2 },
-      { day: '08/12', hour: '16h', millimeters: 27 },
-      { day: '08/12', hour: '17h', millimeters: 20 },
-      { day: '08/12', hour: '18h', millimeters: 6 },
-    ],
-  },
-  {
-    id: v4(),
-    neighbourhood: 'São Gonçalo/RJ',
-    forecast: [
-      { day: '08/12', hour: '11h', millimeters: 0 },
-      { day: '08/12', hour: '12h', millimeters: 0 },
-      { day: '08/12', hour: '13h', millimeters: 2 },
-      { day: '08/12', hour: '14h', millimeters: 27 },
-      { day: '08/12', hour: '15h', millimeters: 20 },
-      { day: '08/12', hour: '16h', millimeters: 6 },
-      { day: '08/12', hour: '17h', millimeters: 15 },
-      { day: '08/12', hour: '18h', millimeters: 0 },
-      { day: '08/12', hour: '19h', millimeters: 2 },
-      { day: '08/12', hour: '20h', millimeters: 27 },
-      { day: '08/12', hour: '21h', millimeters: 20 },
-      { day: '08/12', hour: '22h', millimeters: 6 },
-    ],
-  },
-  {
-    id: v4(),
-    neighbourhood: 'Niteroi/RJ',
-    forecast: [
-      { day: '08/12', hour: '13h', millimeters: 15 },
-      { day: '08/12', hour: '14h', millimeters: 0 },
-      { day: '08/12', hour: '13h', millimeters: 15 },
-      { day: '08/12', hour: '14h', millimeters: 0 },
-      { day: '08/12', hour: '13h', millimeters: 15 },
-      { day: '08/12', hour: '14h', millimeters: 0 },
-    ],
-  },
-];
 
 class ForecastsRepository {
   async findAll() {
     const rows = await db.query(`
-      SELECT localizations.neighbourhood AS neighbourhood,
-      localizations.state AS state, forecast.*
-      FROM forecast
-      INNER JOIN localizations
-      ON  localizations.id = forecast.id_localizations
-      ORDER BY localizations.neighbourhood
+      SELECT locations.neighbourhood AS neighbourhood,
+      locations.state AS state, forecasts.*
+      FROM forecasts
+      INNER JOIN locations
+      ON  locations.id = forecasts.id_locations
+      ORDER BY locations.neighbourhood
     `);
     return rows;
   }
 
-  findByNeighbourhood(neighbourhood) {
-    return new Promise((resolve) => (
-      resolve(forecasts.find((
-        (forecast) => forecast.neighbourhood === neighbourhood)))));
+  async findByHour(hour) {
+    const [row] = await db.query(`
+    SELECT * FROM forecasts
+    WHERE hour = $1
+    `, [hour]);
+    return row;
   }
 
-  create({
-    neighbourhood,
-    forecast,
+  async checkValidLocalizationId(id_locations) {
+    const [row] = await db.query(`
+      SELECT * FROM locations
+      WHERE id = $1
+    `, [id_locations]);
+    return row;
+  }
+
+  async create({
+    day, hour, millimeters, id_locations,
   }) {
-    return new Promise((resolve) => {
-      const newForecast = {
-        id: v4(),
-        neighbourhood,
-        forecast,
-      };
-      forecasts.push(newForecast);
-      resolve(newForecast);
-    });
+    const [row] = await db.query(`
+      INSERT INTO forecasts(day, hour, millimeters, id_locations)
+      VALUES($1, $2, $3, $4)
+      RETURNING *
+    `, [day, hour, millimeters, id_locations]);
+    return row;
   }
 }
 

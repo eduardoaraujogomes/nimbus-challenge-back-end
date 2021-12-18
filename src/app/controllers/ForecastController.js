@@ -1,36 +1,36 @@
 const ForecastsRepository = require('../repositories/ForecastsRepository');
 
-class ForecastController {
+class ForecastsController {
   async index(request, response) {
-    const forecasts = await ForecastsRepository.findAll();
+    const forecastss = await ForecastsRepository.findAll();
 
-    response.json(forecasts);
+    response.json(forecastss);
   }
 
   async store(request, response) {
     const {
-      neighbourhood,
-      forecast,
+      day, hour, millimeters, id_location,
     } = request.body;
 
-    if (!neighbourhood) {
-      return response.status(400).json({ error: 'Neighbourhood is required' });
+    if (!day || !hour || !millimeters || id_location) {
+      return response.status(400).json({ error: 'Day, hour, millimeters and id location are required' });
     }
-    const neighbourhoodExists = await ForecastsRepository.findByNeighbourhood(neighbourhood);
+    const hourExists = await ForecastsRepository.findByHour(hour);
 
-    if (neighbourhoodExists) {
-      return response.status(404).json({ error: 'Neighbourhood exist' });
+    if (!hourExists) {
+      return response.status(404).json({ error: 'This hour already exists' });
     }
-    if (!forecast) {
-      return response.status(400).json({ error: 'Forecast can not be empety' });
+    const locationExists = await ForecastsRepository.checkValidLocationId(id_location);
+
+    if (!locationExists) {
+      return response.status(404).json({ error: 'Put a valid location id' });
     }
 
-    const forecasts = await ForecastsRepository.create({
-      neighbourhood,
-      forecast,
+    const forecastss = await ForecastsRepository.create({
+      day, hour, millimeters, id_location,
     });
-    response.json(forecasts);
+    response.json(forecastss);
   }
 }
 
-module.exports = new ForecastController();
+module.exports = new ForecastsController();
