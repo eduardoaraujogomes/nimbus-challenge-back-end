@@ -8,20 +8,29 @@ class ForecastsRepository {
       FROM forecasts
       INNER JOIN locations
       ON  locations.id = forecasts.id_locations
-      ORDER BY locations.neighbourhood
+      ORDER BY locations.neighbourhood, forecasts.hour
     `);
     return rows;
   }
 
-  async findByHour(hour) {
+  async findByHour(hour, id_locations) {
     const [row] = await db.query(`
     SELECT * FROM forecasts
-    WHERE hour = $1
-    `, [hour]);
+    WHERE hour = $1 AND id_locations = $2
+    `, [hour, id_locations]);
     return row;
   }
 
-  async checkValidLocalizationId(id_locations) {
+  isValidMillimeters(millimeters) {
+    return millimeters >= 0;
+  }
+
+  isValidHourFormat(hour) {
+    const regex = /^([01]\dh|2[0-3]h)$/;
+    return regex.test(hour);
+  }
+
+  async checkValidLocationId(id_locations) {
     const [row] = await db.query(`
       SELECT * FROM locations
       WHERE id = $1

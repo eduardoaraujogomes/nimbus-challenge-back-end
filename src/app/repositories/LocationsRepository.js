@@ -6,6 +6,14 @@ class LocationsRepository {
     return rows;
   }
 
+  async findByNeighbourhood(neighbourhood) {
+    const [row] = await db.query(`
+    SELECT * FROM  locations
+    WHERE neighbourhood = $1
+    `, [neighbourhood]);
+    return row;
+  }
+
   async create({ neighbourhood, state }) {
     const [row] = await db.query(`
       INSERT INTO locations(neighbourhood, state)
