@@ -6,7 +6,8 @@
   "author": "Eduardo de Araújo Gomes Filho",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "start": "yarn"
   },
   "devDependencies": {
     "eslint": "^8.4.1",
